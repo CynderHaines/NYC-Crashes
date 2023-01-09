@@ -241,4 +241,5 @@
 --or [CONTRIBUTING FACTOR VEHICLE 1] = '2'
 --or [CONTRIBUTING FACTOR VEHICLE 1] = '3'
 --or [CONTRIBUTING FACTOR VEHICLE 1] = '4'
---1733889 rows affected. matches previous count. data ready for summation
+--1733889 rows affected. matches previous count. data ready for summation. Can sum injuries and fatalities for pedestrians, cyclists, and motorists.
+--can check distinct results of vehicle code types and try counts of reports by vehicle type
