@@ -1,0 +1,238 @@
+--select * from crash where [CRASH DATE]=' PARKING LOT)."'
+--delete from crash where [CRASH DATE]=' PARKING LOT)."'
+
+--select count(*) from crash where [CRASH DATE] >= Convert(datetime, '2022-01-01') and [CRASH DATE] < Convert(datetime, '2023-01-01')
+--order by [CRASH DATE]
+
+--select distinct [NUMBER OF PERSONS KILLED] from crash
+--select * from crash where [NUMBER OF PERSONS KILLED] = ' NY 11271        "'
+--or [NUMBER OF PERSONS KILLED] = 'NY 11239"'
+--or [NUMBER OF PERSONS KILLED] = ''
+
+--delete from crash where [NUMBER OF PERSONS KILLED] = ' NY 11271        "'
+--or [NUMBER OF PERSONS KILLED] = 'NY 11239"'
+--or [NUMBER OF PERSONS KILLED] = ''
+
+--select distinct [NUMBER OF PERSONS KILLED] from crash
+--select distinct [crash time] from crash
+
+--select count(*) from crash where CHARINDEX(':', [crash time]) > 0
+--select count(*) from crash
+--result is 1958946 for both, so we can run a command to remove ':' from [crash time] and all rows should update with none leftover
+
+--select * into crashcopy from crash
+--backup before updating all rows
+--select count(*) from crash
+--select count(*) from crashcopy
+--result is 1958946 for both, so likely no errors. select top 1000 also shows same results
+
+--UPDATE crashcopy
+--SET [crash time] = LEFT([crash time], CHARINDEX(':', [crash time]) - 1)
+--WHERE CHARINDEX(':', [crash time]) > 0
+
+--select distinct [crash time] from crashcopy order by [crash time]
+--//results show crash time by hour of the day for easier visualization. received 24 results, one for each hour of the day as expected
+
+--UPDATE crash
+--SET [crash time] = LEFT([crash time], CHARINDEX(':', [crash time]) - 1)
+--WHERE CHARINDEX(':', [crash time]) > 0
+
+--select distinct [crash time] from crash order by [crash time]
+
+--select count(*) from crash where [crash time] = 23
+
+--select distinct [borough] from crash
+--STATEN ISLAND, BROOKLYN, BRONX, QUEENS, MANHATTAN, and ''
+--select count(*) from crash where [borough] = ''
+--608631 out of 1958946 records (31%) do not record borough in the borough column
+
+--select count(*) from crash where [borough] = 'MANHATTAN' and [CRASH DATE] >= Convert(datetime, '2013-01-01') and [CRASH DATE] < Convert(datetime, '2014-01-01')
+--select count(*) from crash where [borough] = 'MANHATTAN' and [CRASH DATE] >= Convert(datetime, '2014-01-01') and [CRASH DATE] < Convert(datetime, '2015-01-01')
+--select count(*) from crash where [borough] = 'MANHATTAN' and [CRASH DATE] >= Convert(datetime, '2015-01-01') and [CRASH DATE] < Convert(datetime, '2016-01-01')
+--select count(*) from crash where [borough] = 'MANHATTAN' and [CRASH DATE] >= Convert(datetime, '2016-01-01') and [CRASH DATE] < Convert(datetime, '2017-01-01')
+--select count(*) from crash where [borough] = 'MANHATTAN' and [CRASH DATE] >= Convert(datetime, '2017-01-01') and [CRASH DATE] < Convert(datetime, '2018-01-01')
+--select count(*) from crash where [borough] = 'MANHATTAN' and [CRASH DATE] >= Convert(datetime, '2018-01-01') and [CRASH DATE] < Convert(datetime, '2019-01-01')
+--select count(*) from crash where [borough] = 'MANHATTAN' and [CRASH DATE] >= Convert(datetime, '2019-01-01') and [CRASH DATE] < Convert(datetime, '2020-01-01')
+--select count(*) from crash where [borough] = 'MANHATTAN' and [CRASH DATE] >= Convert(datetime, '2020-01-01') and [CRASH DATE] < Convert(datetime, '2021-01-01')
+--select count(*) from crash where [borough] = 'MANHATTAN' and [CRASH DATE] >= Convert(datetime, '2021-01-01') and [CRASH DATE] < Convert(datetime, '2022-01-01')
+--select count(*) from crash where [borough] = 'MANHATTAN' and [CRASH DATE] >= Convert(datetime, '2022-01-01') and [CRASH DATE] < Convert(datetime, '2023-01-01')
+
+--select distinct [NUMBER OF PERSONS INJURED] from crash
+--when reports for this dataset include a street number in the address, that address is sometimes incorrectly placed in the [NUMBER OF PERSONS INJURED] column. 169674 records have this issue. The records don't appear to have all data shifted right a few spaces in the same way that the 22 records with incorrect [NUMBER OF PERSONS KILLED] values did, so we don't have to delete them before summing injury and fatality columns to find year totals
+
+--select distinct [CONTRIBUTING FACTOR VEHICLE 1] from crash order by [CONTRIBUTING FACTOR VEHICLE 1]
+--select * from crash where [CONTRIBUTING FACTOR VEHICLE 1] = ''
+--or [CONTRIBUTING FACTOR VEHICLE 1] = '0'
+--or [CONTRIBUTING FACTOR VEHICLE 1] = '1'
+--or [CONTRIBUTING FACTOR VEHICLE 1] = '2'
+--or [CONTRIBUTING FACTOR VEHICLE 1] = '3'
+--or [CONTRIBUTING FACTOR VEHICLE 1] = '4'
+--or [CONTRIBUTING FACTOR VEHICLE 1] = '5'
+--or [CONTRIBUTING FACTOR VEHICLE 1] = '80'
+
+--select * from crash where [CONTRIBUTING FACTOR VEHICLE 1] = '5'
+--1 record where numbers have been shifted 1 cell to the right. will update to correct
+
+--update crashcopy
+--set [NUMBER OF PERSONS INJURED] = 3, [NUMBER OF PERSONS KILLED] = 5, [NUMBER OF PEDESTRIANS INJURED] = 0, [NUMBER OF MOTORIST INJURED] = 3, [NUMBER OF MOTORIST KILLED] = 5, [CONTRIBUTING FACTOR VEHICLE 1] = 'Traffic Control Disregarded', [COLLISION_ID] = 208863, [VEHICLE TYPE CODE 1] = 'SPORT UTILITY / STATION WAGON', [VEHICLE TYPE CODE 2] =''
+--where [CONTRIBUTING FACTOR VEHICLE 1] = '5'
+
+--select * from crashcopy where [CONTRIBUTING FACTOR VEHICLE 1] = '5'
+--select * from crashcopy where [COLLISION_ID] = '208863'
+--correct update in crashcopy, so will apply to main table
+
+--update crash
+--set [NUMBER OF PERSONS INJURED] = 3, [NUMBER OF PERSONS KILLED] = 5, [NUMBER OF PEDESTRIANS INJURED] = 0, [NUMBER OF MOTORIST INJURED] = 3, [NUMBER OF MOTORIST KILLED] = 5, [CONTRIBUTING FACTOR VEHICLE 1] = 'Traffic Control Disregarded', [COLLISION_ID] = 208863, [VEHICLE TYPE CODE 1] = 'SPORT UTILITY / STATION WAGON', [VEHICLE TYPE CODE 2] =''
+--where [CONTRIBUTING FACTOR VEHICLE 1] = '5'
+
+--select * from crash where [CONTRIBUTING FACTOR VEHICLE 1] = ''
+--or [CONTRIBUTING FACTOR VEHICLE 1] = '0'
+--or [CONTRIBUTING FACTOR VEHICLE 1] = '1'
+--or [CONTRIBUTING FACTOR VEHICLE 1] = '2'
+--or [CONTRIBUTING FACTOR VEHICLE 1] = '3'
+--or [CONTRIBUTING FACTOR VEHICLE 1] = '4'
+--or [CONTRIBUTING FACTOR VEHICLE 1] = '80'
+--order by [CONTRIBUTING FACTOR VEHICLE 1]
+--records with '80' and '' are not shifted and can be summed. records with 0,1,2,3,4 are shifted 1 cell to the right and need correction
+
+--select distinct [CONTRIBUTING FACTOR VEHICLE 1] from crash order by [CONTRIBUTING FACTOR VEHICLE 1]
+
+--update crashcopy
+--set [NUMBER OF PERSONS INJURED] = [NUMBER OF PERSONS KILLED],
+--[NUMBER OF PERSONS KILLED] = [NUMBER OF PEDESTRIANS INJURED],
+--[NUMBER OF PEDESTRIANS INJURED] = [NUMBER OF PEDESTRIANS KILLED],
+--[NUMBER OF PEDESTRIANS KILLED] = [NUMBER OF CYCLIST INJURED],
+--[NUMBER OF CYCLIST INJURED] = [NUMBER OF CYCLIST KILLED],
+--[NUMBER OF CYCLIST KILLED] = [NUMBER OF MOTORIST INJURED],
+--[NUMBER OF MOTORIST INJURED] = [NUMBER OF MOTORIST KILLED],
+--[COLLISION_ID] = [VEHICLE TYPE CODE 1]
+--where [CONTRIBUTING FACTOR VEHICLE 1] = '4'
+
+--select * from crash where [CONTRIBUTING FACTOR VEHICLE 1] = '4'
+--select * from crashcopy where [CONTRIBUTING FACTOR VEHICLE 1] = '4'
+--test showed missed [NUMBER OF MOTORIST KILLED] update. will correct.
+
+--update crashcopy
+--set [NUMBER OF MOTORIST KILLED] = [CONTRIBUTING FACTOR VEHICLE 1]
+--where [CONTRIBUTING FACTOR VEHICLE 1] = '4'
+
+--select * from crash where [CONTRIBUTING FACTOR VEHICLE 1] = '4'
+--select * from crashcopy where [CONTRIBUTING FACTOR VEHICLE 1] = '4'
+--good results
+
+--select * from crash where [CONTRIBUTING FACTOR VEHICLE 1] = '3'
+--select * from crashcopy where [CONTRIBUTING FACTOR VEHICLE 1] = '3'
+
+--update crashcopy
+--set [NUMBER OF PERSONS INJURED] = [NUMBER OF PERSONS KILLED],
+--[NUMBER OF PERSONS KILLED] = [NUMBER OF PEDESTRIANS INJURED],
+--[NUMBER OF PEDESTRIANS INJURED] = [NUMBER OF PEDESTRIANS KILLED],
+--[NUMBER OF PEDESTRIANS KILLED] = [NUMBER OF CYCLIST INJURED],
+--[NUMBER OF CYCLIST INJURED] = [NUMBER OF CYCLIST KILLED],
+--[NUMBER OF CYCLIST KILLED] = [NUMBER OF MOTORIST INJURED],
+--[NUMBER OF MOTORIST INJURED] = [NUMBER OF MOTORIST KILLED],
+--[NUMBER OF MOTORIST KILLED] = [CONTRIBUTING FACTOR VEHICLE 1],
+--[COLLISION_ID] = [VEHICLE TYPE CODE 1]
+--where [CONTRIBUTING FACTOR VEHICLE 1] = '3'
+
+--select * from crashcopy where [CONTRIBUTING FACTOR VEHICLE 1] = '3'
+--good results
+
+--select * from crashcopy where [CONTRIBUTING FACTOR VEHICLE 1] = '1'
+--or [CONTRIBUTING FACTOR VEHICLE 1] = '2'
+--order by [NUMBER OF PERSONS INJURED]
+--all '2' results are shifted, but a few '1' results are not shifted, as indicated by int values in [NUMBER OF PERSONS INJURED]. only a few results that are 1 or 0 in the injured column.
+
+--select * from crashcopy where [CONTRIBUTING FACTOR VEHICLE 1] = '0' and ISNUMERIC([NUMBER OF PERSONS INJURED]) = 1
+--order by [NUMBER OF PERSONS INJURED]
+--0 results. all rows with '0' in [CONTRIBUTING FACTOR VEHICLE 1] are shifted right and need correction.
+
+--update crashcopy
+--set [NUMBER OF PERSONS INJURED] = [NUMBER OF PERSONS KILLED],
+--[NUMBER OF PERSONS KILLED] = [NUMBER OF PEDESTRIANS INJURED],
+--[NUMBER OF PEDESTRIANS INJURED] = [NUMBER OF PEDESTRIANS KILLED],
+--[NUMBER OF PEDESTRIANS KILLED] = [NUMBER OF CYCLIST INJURED],
+--[NUMBER OF CYCLIST INJURED] = [NUMBER OF CYCLIST KILLED],
+--[NUMBER OF CYCLIST KILLED] = [NUMBER OF MOTORIST INJURED],
+--[NUMBER OF MOTORIST INJURED] = [NUMBER OF MOTORIST KILLED],
+--[NUMBER OF MOTORIST KILLED] = [CONTRIBUTING FACTOR VEHICLE 1],
+--[COLLISION_ID] = [VEHICLE TYPE CODE 1]
+--where [CONTRIBUTING FACTOR VEHICLE 1] = '2'
+
+--select * from crashcopy where [CONTRIBUTING FACTOR VEHICLE 1] = '2'
+--good results
+
+--select * from crashcopy where [CONTRIBUTING FACTOR VEHICLE 1] = '1' and ISNUMERIC([NUMBER OF PERSONS INJURED]) = 0
+--order by [NUMBER OF PERSONS INJURED]
+
+--update crashcopy
+--set [NUMBER OF PERSONS INJURED] = [NUMBER OF PERSONS KILLED],
+--[NUMBER OF PERSONS KILLED] = [NUMBER OF PEDESTRIANS INJURED],
+--[NUMBER OF PEDESTRIANS INJURED] = [NUMBER OF PEDESTRIANS KILLED],
+--[NUMBER OF PEDESTRIANS KILLED] = [NUMBER OF CYCLIST INJURED],
+--[NUMBER OF CYCLIST INJURED] = [NUMBER OF CYCLIST KILLED],
+--[NUMBER OF CYCLIST KILLED] = [NUMBER OF MOTORIST INJURED],
+--[NUMBER OF MOTORIST INJURED] = [NUMBER OF MOTORIST KILLED],
+--[NUMBER OF MOTORIST KILLED] = [CONTRIBUTING FACTOR VEHICLE 1],
+--[COLLISION_ID] = [VEHICLE TYPE CODE 1]
+--where [CONTRIBUTING FACTOR VEHICLE 1] = '1' and ISNUMERIC([NUMBER OF PERSONS INJURED]) = 0
+
+--select * from crashcopy where [CONTRIBUTING FACTOR VEHICLE 1] = '1'
+--order by [NUMBER OF PERSONS INJURED]
+--good results
+
+--select distinct [CONTRIBUTING FACTOR VEHICLE 1] from crashcopy order by [CONTRIBUTING FACTOR VEHICLE 1]
+--select * from crashcopy where ISNUMERIC([NUMBER OF PERSONS INJURED]) = 0 and [CONTRIBUTING FACTOR VEHICLE 1] = ''
+----or [CONTRIBUTING FACTOR VEHICLE 1] = '0'
+--or ISNUMERIC([NUMBER OF PERSONS INJURED]) = 0 and [CONTRIBUTING FACTOR VEHICLE 1] = '1'
+--or ISNUMERIC([NUMBER OF PERSONS INJURED]) = 0 and [CONTRIBUTING FACTOR VEHICLE 1] = '2'
+--or ISNUMERIC([NUMBER OF PERSONS INJURED]) = 0 and [CONTRIBUTING FACTOR VEHICLE 1] = '3'
+--or ISNUMERIC([NUMBER OF PERSONS INJURED]) = 0 and [CONTRIBUTING FACTOR VEHICLE 1] = '4'
+--or ISNUMERIC([NUMBER OF PERSONS INJURED]) = 0 and [CONTRIBUTING FACTOR VEHICLE 1] = '5'
+--or ISNUMERIC([NUMBER OF PERSONS INJURED]) = 0 and [CONTRIBUTING FACTOR VEHICLE 1] = '80'
+----only '0' needs correction
+
+--select count(*) from crashcopy where ISNUMERIC([NUMBER OF PERSONS INJURED]) = 1 and [CONTRIBUTING FACTOR VEHICLE 1] = '0'
+--1733019 records are shifted and need correction. all '0' records are shifted based on no results from ISNUMERIC=1 test
+
+--select count(*) from crashcopy where ISNUMERIC([NUMBER OF PERSONS INJURED]) = 0
+--1733019 results. only records pending correction have '0' in [CONTRIBUTING FACTOR VEHICLE 1] column
+
+--update crashcopy
+--set [NUMBER OF PERSONS INJURED] = [NUMBER OF PERSONS KILLED],
+--[NUMBER OF PERSONS KILLED] = [NUMBER OF PEDESTRIANS INJURED],
+--[NUMBER OF PEDESTRIANS INJURED] = [NUMBER OF PEDESTRIANS KILLED],
+--[NUMBER OF PEDESTRIANS KILLED] = [NUMBER OF CYCLIST INJURED],
+--[NUMBER OF CYCLIST INJURED] = [NUMBER OF CYCLIST KILLED],
+--[NUMBER OF CYCLIST KILLED] = [NUMBER OF MOTORIST INJURED],
+--[NUMBER OF MOTORIST INJURED] = [NUMBER OF MOTORIST KILLED],
+--[NUMBER OF MOTORIST KILLED] = [CONTRIBUTING FACTOR VEHICLE 1],
+--[COLLISION_ID] = [VEHICLE TYPE CODE 1]
+--where [CONTRIBUTING FACTOR VEHICLE 1] = '0'
+
+--select count(*) from crashcopy where ISNUMERIC([NUMBER OF PERSONS INJURED]) = 0
+--0 results as expected. select top 100 test also shows good results
+
+--select distinct [CONTRIBUTING FACTOR VEHICLE 1] from crash where ISNUMERIC([NUMBER OF PERSONS INJURED]) = 0
+--order by [CONTRIBUTING FACTOR VEHICLE 1]
+--'5' records already updated. need to update 0,1,2,3,4
+
+--select count(*) from crash where ISNUMERIC([NUMBER OF PERSONS INJURED]) = 0
+--1733889 results. should match update results
+
+--update crash
+--set [NUMBER OF PERSONS INJURED] = [NUMBER OF PERSONS KILLED],
+--[NUMBER OF PERSONS KILLED] = [NUMBER OF PEDESTRIANS INJURED],
+--[NUMBER OF PEDESTRIANS INJURED] = [NUMBER OF PEDESTRIANS KILLED],
+--[NUMBER OF PEDESTRIANS KILLED] = [NUMBER OF CYCLIST INJURED],
+--[NUMBER OF CYCLIST INJURED] = [NUMBER OF CYCLIST KILLED],
+--[NUMBER OF CYCLIST KILLED] = [NUMBER OF MOTORIST INJURED],
+--[NUMBER OF MOTORIST INJURED] = [NUMBER OF MOTORIST KILLED],
+--[NUMBER OF MOTORIST KILLED] = [CONTRIBUTING FACTOR VEHICLE 1],
+--[COLLISION_ID] = [VEHICLE TYPE CODE 1]
+--where [CONTRIBUTING FACTOR VEHICLE 1] = '0'
+--or [CONTRIBUTING FACTOR VEHICLE 1] = '1' and ISNUMERIC([NUMBER OF PERSONS INJURED]) = 0
+--or [CONTRIBUTING FACTOR VEHICLE 1] = '2'
+--or [CONTRIBUTING FACTOR VEHICLE 1] = '3'
+--or [CONTRIBUTING FACTOR VEHICLE 1] = '4'
+--1733889 rows affected. matches previous count. data ready for summation
