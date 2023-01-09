@@ -1,3 +1,5 @@
+--columns from contributing factor to vehicle type code 5 needed to be changed to text stream data type in SQL Server flat file import in order to import successfully
+
 --select * from crash where [CRASH DATE]=' PARKING LOT)."'
 --delete from crash where [CRASH DATE]=' PARKING LOT)."'
 
@@ -31,7 +33,7 @@
 --WHERE CHARINDEX(':', [crash time]) > 0
 
 --select distinct [crash time] from crashcopy order by [crash time]
---//results show crash time by hour of the day for easier visualization. received 24 results, one for each hour of the day as expected
+--results show crash time by hour of the day for easier visualization. received 24 results, one for each hour of the day as expected
 
 --UPDATE crash
 --SET [crash time] = LEFT([crash time], CHARINDEX(':', [crash time]) - 1)
