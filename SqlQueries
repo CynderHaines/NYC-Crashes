@@ -1,3 +1,7 @@
+--New York City Motor Vehicle Collisions 2013-2022
+--https://data.cityofnewyork.us/Public-Safety/Motor-Vehicle-Collisions-Crashes/h9gi-nx95
+--Data from NYC police reports. Reports are required by law in collisions where someone is injured or killed, or where there is at least $1000 worth of damage.
+
 --columns from contributing factor to vehicle type code 5 needed to be changed to text stream data type in SQL Server flat file import in order to import successfully
 
 --select * from crash where [CRASH DATE]=' PARKING LOT)."'
